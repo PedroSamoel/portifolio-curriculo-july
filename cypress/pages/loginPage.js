@@ -5,12 +5,14 @@ class LoginPage {
     userPassword: '#passwd.validate[type="password"]',
     signInBtn: '.login[title="Log in to your customer account"]',
     loginBtn: '#SubmitLogin[name="SubmitLogin"]',                         
-    logoutHeader: '.logout[title="Log me out"]',                         
+    logoutHeader: '.header_user_info .logout[title="Log me out"]',                         
     alertError: '.center_column .alert-danger', 
+    boxLogIn: '#center_column #login_form',
+
     
   // Conta / Informações Pessoais
-    fieldPersonalInfo: '[href="http://www.automationpractice.pl/index.php?controller=identity"][title="Information"]', // My account: Personal info link
-    boxPersonalInfo: '.box [action="http://www.automationpractice.pl/index.php?controller=identity"]',                // My account: Personal info form box
+    fieldPersonalInfo: '[title="Information"]', // My account: Personal info link
+    boxPersonalInfo: '[action="http://www.automationpractice.pl/index.php?controller=identity"]',                // My account: Personal info form box
     gridMyAccount: '.col-lg-4 .myaccount-link-list',                      // My account: Account options grid
 
   // Formulário de perfil / edição
@@ -45,6 +47,20 @@ class LoginPage {
     cy.get(this.selectors.signInBtn).click()
   }
 
+ loginBtnClick() {
+    cy.get(this.selectors.loginBtn).click()
+     }
+
+  linkLocationPostLogin() {
+    cy.location('pathname').should('eq', '/index.php')
+    cy.location('search').should('eq', '?controller=my-account')
+  }
+
+  visibleBoxLogin() {
+    cy.get(this.selectors.boxLogIn).should('be.visible')    
+  }
+
+
   checkErrorAlert() {
     cy.get(this.selectors.alertError)
       .should('be.visible')
@@ -62,6 +78,19 @@ class LoginPage {
       .should('match', expectedErrorMessage)
 }
 
+ fieldPersonalInfo() {
+  cy.get(this.selectors.fieldPersonalInfo).click()
+  
+}
+
+boxPersonalInfo() {
+  cy.get(this.selectors.boxPersonalInfo).should('be.visible')
+}
+
+checkUrlFormPersonalInfo() {
+  cy.location('search').should('eq', '?controller=identity')
+}
+
   loginWithValidCredentials() {
     cy.get(this.selectors.userEmail)
     .type(userData.userValid.username)
@@ -70,9 +99,36 @@ class LoginPage {
     cy.get(this.selectors.loginBtn).click()
 }
 
-logout() {
+ gridMyAccountVisible() {
+  cy.get(this.selectors.gridMyAccount).should('be.visible') 
+}
+ 
+
+ logout() {
+   cy.get(this.selectors.logoutHeader).click()
 }
 
+editYourPersonalInformation() {
+  cy.get(this.selectors.socialTitle).check('1')
+  cy.get(this.selectors.firstName).clear().type('Test')
+  cy.get(this.selectors.lastName).clear().type('Test')
+  cy.get(this.selectors.registerEmail).clear().type('noname@gmail.com')
+  cy.get(this.selectors.daysBirth).select('1')
+  cy.get(this.selectors.monthBirth).select('1')
+  cy.get(this.selectors.yearBirth).select('2000')
+  cy.get(this.selectors.currentPassword).type('TestPassword')
+  cy.get(this.selectors.newPassword).clear()
+  cy.get(this.selectors.confirmationPassword).clear()
+  cy.get(this.selectors.saveBtn).click()
+}
+
+  checkSuccessNotification() {
+    cy.get(this.selectors.successfullyUpdated)
+      .should('be.visible')
+      .invoke('text')
+      .should('match', /success|updated|saved/i)
+  }
+  
 }
 
 export default LoginPage
