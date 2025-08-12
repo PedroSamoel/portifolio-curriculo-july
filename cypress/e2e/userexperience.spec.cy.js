@@ -11,12 +11,9 @@ describe("User's Experience - TESTS", () => {
   it('Unsuccessful Login', () => {
     loginPage.accessLoginPage()
     loginPage.clickSignIn()
-    loginPage.expectedUrlFormLogin()
-
-// 1. Tentar logar sem preencher nada
-    loginPage.loginBtnClick()
-    loginPage.checkErrorAlert()
-    
+//Chek login without ID
+    loginPage.loginWithoutId() 
+//Check login with invalid credentials
     loginPage.loginWithInvalidCredentials(
       userData.userInvalid.username,
       userData.userInvalid.password
@@ -24,35 +21,22 @@ describe("User's Experience - TESTS", () => {
   })
 
 it('Successful Login and Logout', () => {
-  loginPage.accessLoginPage()
-  loginPage.clickSignIn()
-  loginPage.loginWithValidCredentials()
-  loginPage.gridMyAccountVisible()
-  loginPage.linkLocationPostLogin()
 
-  // Logout
+  loginPage.loginWithValidCredentials() 
   loginPage.logout()
-  loginPage.visibleBoxLogin()
-
   })
 })
 
-describe.only('Account Management - Personal Information', () => {
+describe('Account Management - Personal Information', () => {
 
-// Verifica se o login foi bem-sucedido antes de cada teste
 beforeEach(() => {
-  loginPage.accessLoginPage()
-  loginPage.clickSignIn()
+//Login valid credentials before each test
   loginPage.loginWithValidCredentials()
-  loginPage.gridMyAccountVisible()
- })
-   
-  it('My personal information', () => {
-    accountManagementPage.accessYourPersonalInformation()
+})
 
-    accountManagementPage.editYourPersonalInformation()
-
-    accountManagementPage.checkSuccessNotification()
-
-  })
+it('Edit my personal information', () => {
+  accountManagementPage.accessYourPersonalInformation()
+  accountManagementPage.editYourPersonalInformation()
+  accountManagementPage.checkSuccessNotification()
+})
 })
