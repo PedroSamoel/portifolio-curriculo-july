@@ -1,8 +1,9 @@
 import LoginPage from '../pages/loginPage'
 import userData from '../fixtures/userData.json'
-import dashboardPage from '../pages/dashboardPage'
+import AccountManagementPage from '../pages/accountManagementPage'
 
 const loginPage = new LoginPage()
+const accountManagementPage = new AccountManagementPage()
 
 
 describe("User's Experience - TESTS", () => {
@@ -36,7 +37,7 @@ it('Successful Login and Logout', () => {
   })
 })
 
-describe('Account Management - Personal Information', () => {
+describe.only('Account Management - Personal Information', () => {
 
 // Verifica se o login foi bem-sucedido antes de cada teste
 beforeEach(() => {
@@ -44,16 +45,14 @@ beforeEach(() => {
   loginPage.clickSignIn()
   loginPage.loginWithValidCredentials()
   loginPage.gridMyAccountVisible()
-  })
+ })
    
   it('My personal information', () => {
-    loginPage.fieldPersonalInfo()  
-    loginPage.boxPersonalInfo() 
-    loginPage.checkUrlFormPersonalInfo()
-///Alteração de cadastro
-    loginPage.editYourPersonalInformation()
-///Notificação deverá aparecer p/ usuário
-    loginPage.checkSuccessNotification()
+    accountManagementPage.accessYourPersonalInformation()
+
+    accountManagementPage.editYourPersonalInformation()
+
+    accountManagementPage.checkSuccessNotification()
 
   })
 })
