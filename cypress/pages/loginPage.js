@@ -12,7 +12,6 @@ class LoginPage {
     gridMyAccount: '.col-lg-4 .myaccount-link-list',                                                             // My account: Account options grid
   }
 
-  // Home Page
   accessLoginPage() {
     cy.visit('http://www.automationpractice.pl/index.php')
   }

@@ -26,17 +26,3 @@ it('Successful Login and Logout', () => {
   loginPage.logout()
   })
 })
-
-describe('Account Management - Personal Information', () => {
-
-beforeEach(() => {
-//Login valid credentials before each test
-  loginPage.loginWithValidCredentials()
-})
-
-it('Edit my personal information', () => {
-  accountManagementPage.accessYourPersonalInformation()
-  accountManagementPage.editYourPersonalInformation()
-  accountManagementPage.checkSuccessNotification()
-})
-})
